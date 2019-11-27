@@ -99,9 +99,9 @@ namespace Macross
             if (Plaintext == null)
                 return;
 
-            ApplePayDecryptedPaymentData PaymentData = JsonSerializer.Deserialize<ApplePayDecryptedPaymentData>(Encoding.ASCII.GetString(Plaintext));
+            ApplePayDecryptedPaymentData PaymentData = JsonSerializer.Deserialize<ApplePayDecryptedPaymentData>(Encoding.UTF8.GetString(Plaintext));
 
-            _PlaintextTextBox.Text = JsonSerializer.Serialize<ApplePayDecryptedPaymentData>(
+            _PlaintextTextBox.Text = JsonSerializer.Serialize(
                 PaymentData,
                 new JsonSerializerOptions
                 {
