@@ -1,24 +1,11 @@
 ﻿namespace Macross
 {
-    partial class MainForm
+    public partial class CertificateSigningRequestForm
     {
         /// <summary>
         ///  Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
-        ///  Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
 
         #region Windows Form Designer generated code
 
@@ -29,14 +16,13 @@
         private void InitializeComponent()
         {
             //
-            // MainForm
+            // CertificateSigningRequestForm
             //
             this.ClientSize = new System.Drawing.Size(1008, 729);
-            this.Name = "MainForm";
-            this.Text = "Macross Apple Pay Decryption Utility";
+            this.Name = "CertificateSigningRequestForm";
+            this.Text = "Macross Apple Pay Certificate Signing Request";
         }
 
         #endregion
     }
 }
-

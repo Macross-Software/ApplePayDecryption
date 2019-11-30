@@ -24,7 +24,7 @@ namespace Macross
         }
 
         public static string ExportPublicKeyInPEMFormat(this X509Certificate certificate)
-            => PEMEncode(ExportPublicKeyInDERFormat(certificate), "PUBLIC KEY");
+            => EncodeDERDataInPEMFormat(ExportPublicKeyInDERFormat(certificate), "PUBLIC KEY");
 
         // .NET does not have a way to get an ECC public/private key out of an X509 certificate. Remove this and Certificate NativeMethods if it ever gets one!
         public static CngKey GetCngPrivateKey(this X509Certificate2 certificate)
@@ -47,13 +47,25 @@ namespace Macross
             }
         }
 
-        private static string PEMEncode(byte[] derData, string pemLabel)
+        internal static string EncodeDERDataInPEMFormat(byte[] derData, string pemLabel)
         {
             StringBuilder builder = new StringBuilder();
             builder.Append("-----BEGIN ");
             builder.Append(pemLabel);
             builder.AppendLine("-----");
-            builder.AppendLine(Convert.ToBase64String(derData, Base64FormattingOptions.InsertLineBreaks));
+
+            string base64 = Convert.ToBase64String(derData);
+
+            int offset = 0;
+            const int LineLength = 64;
+
+            while (offset < base64.Length)
+            {
+                int lineEnd = Math.Min(offset + LineLength, base64.Length);
+                builder.AppendLine(base64[offset..lineEnd]);
+                offset = lineEnd;
+            }
+
             builder.Append("-----END ");
             builder.Append(pemLabel);
             builder.AppendLine("-----");
