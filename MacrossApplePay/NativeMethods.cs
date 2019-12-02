@@ -19,6 +19,13 @@ namespace Macross
             NCryptKeyHandle = 78, // CERT_NCRYPT_KEY_HANDLE_PROP_ID
         }
 
+        [Flags]
+        public enum CertificateSetPropertyFlags
+        {
+            CERT_SET_PROPERTY_INHIBIT_PERSIST_FLAG = 0x40000000,
+            None = 0x00000000,
+        }
+
         public enum AcquireCertificateKeyOptions
         {
             None = 0x00000000,
@@ -32,6 +39,14 @@ namespace Macross
             CertificateProperty dwPropId,
             [Out] out IntPtr pvData,
             [In, Out] ref int pcbData);
+
+        [DllImport("crypt32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CertSetCertificateContextProperty(
+            SafeCertContextHandle pCertContext,
+            CertificateProperty dwPropId,
+            CertificateSetPropertyFlags dwFlags,
+            [In] SafeNCryptKeyHandle keyHandle);
 
         [DllImport("crypt32.dll")]
         public static extern SafeCertContextHandle CertDuplicateCertificateContext(IntPtr certContext);

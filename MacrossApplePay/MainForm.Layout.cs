@@ -73,6 +73,8 @@ namespace Macross
 
 		private void CreateControls()
 		{
+			SuspendLayout();
+
 			TableLayoutPanel MainLayout = new TableLayoutPanel
 			{
 				Dock = DockStyle.Fill,
@@ -98,6 +100,18 @@ namespace Macross
 			MainLayout.Controls.Add(CreatePlaintextControls(), 0, 6);
 
 			Controls.Add(MainLayout);
+
+			MenuStrip MenuStrip = new MenuStrip();
+
+			MenuStrip.Items.Add(new ToolStripMenuItem("&File", null, new ToolStripMenuItem("E&xit", null, (sender, e) => Close(), Keys.Alt | Keys.F4)));
+			MenuStrip.Items.Add(new ToolStripMenuItem("&Tools", null, new ToolStripMenuItem("&Launch CSR utility...", null, (sender, e) => OnLaunchCertificateSigningRequestForm(), Keys.Control | Keys.L)));
+
+			Controls.Add(MenuStrip);
+
+			MainMenuStrip = MenuStrip;
+
+			ResumeLayout(false);
+			PerformLayout();
 		}
 
 		private Control CreateRootCertificateControls()
@@ -316,6 +330,13 @@ namespace Macross
 			MainLayout.Controls.Add(_PlaintextTextBox, 1, 0);
 
 			return MainLayout;
+		}
+
+		private static void OnLaunchCertificateSigningRequestForm()
+		{
+			using CertificateSigningRequestForm CSR = new CertificateSigningRequestForm();
+
+			CSR.ShowDialog();
 		}
 #pragma warning restore CA2000
 #pragma warning restore CA2213
